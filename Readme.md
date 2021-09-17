@@ -18,7 +18,8 @@
 
 ## Steps
 
-+ Create a directory (eg: blogApp) <br>```cd blogApp```
++ Create a directory (eg: blogApp) <br>```mkdir blogApp```
++ Change directory<br>```cd blogApp```
 + Clone the repository <br>```git clone https://github.com/pravesh-k/simple-blog-django.git```
 + Check pip exists or not<br>```pip -h```
 + Install virtualenv<br>```pip install virtualenv```
