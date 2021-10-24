@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Post
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import EmailPostForm
+from django.core.mail import send_mail
 # Create your views here.
 
 # view for post list
@@ -47,6 +48,7 @@ def post_detail(request, year, month, day, post):
 def post_share(request, post_id):
     # Retrieve post by id
     post = get_object_or_404(Post, id=post_id, status = 'published')
+    sent = False
 
     if request.method == 'POST':
         # when form was submitted, create a form instance using the
@@ -56,6 +58,11 @@ def post_share(request, post_id):
             # Form fields passed validation, If your form data does not 
             # validate, cleaned_data will contain only the valid fields.
             cd = form.cleaned_data
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            subject = f"{cd['name']} recommends you read " f"{post.title}"
+            message = f"Read {post.title} at {post_url}\n\n" f"{cd['name']}\'s comments: {cd['comments']}"
+            send_mail(subject, message, 'praveshnayak@gmail.com', [cd['to']])
+            sent = True
             # ...send email
 
         # When the view is loaded initially with a GET request, you create a new form
