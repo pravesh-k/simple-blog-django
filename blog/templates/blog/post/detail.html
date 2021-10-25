@@ -14,11 +14,11 @@
     <!-- Displaying the count of comments in the post -->
     <!-- Using Django ORM template, executing quesry set for count of comments -->
     <!-- DTL doesn't use parentheses for calling methods -->
-    {{% with comments.count as total_comments %}}
+    {% with comments.count as total_comments %}
         <h2>
             {{ total_comments }} comment{{total_comments|pluralize}}
         </h2>
-    {{% endwith %}}
+    {% endwith %}
 
     <!-- Displaying the list of comments on the post by iterating over each comment -->
     {% for comment in comments %}
