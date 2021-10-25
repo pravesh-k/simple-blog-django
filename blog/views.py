@@ -46,6 +46,8 @@ def post_detail(request, year, month, day, post):
 
 # view for the form which handles sending post in mails
 def post_share(request, post_id):
+
+    print('ReQUEST: ', request)
     # Retrieve post by id
     post = get_object_or_404(Post, id=post_id, status = 'published')
     sent = False
@@ -54,6 +56,7 @@ def post_share(request, post_id):
         # when form was submitted, create a form instance using the
         # submitted data that is contained in request.POST 
         form = EmailPostForm(request.POST)
+        # print("FORM Data: ", form)
         if form.is_valid():
             # Form fields passed validation, If your form data does not 
             # validate, cleaned_data will contain only the valid fields.
@@ -70,4 +73,4 @@ def post_share(request, post_id):
         else:
             form = EmailPostForm()
         
-        return render(request, 'blog/post/share.html', {'post': post, 'form': form})
+        return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent':sent})
