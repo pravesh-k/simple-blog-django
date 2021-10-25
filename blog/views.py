@@ -47,7 +47,7 @@ def post_detail(request, year, month, day, post):
 # view for the form which handles sending post in mails
 def post_share(request, post_id):
 
-    print('ReQUEST: ', request)
+    print('REQUEST: ', request)
     # Retrieve post by id
     post = get_object_or_404(Post, id=post_id, status = 'published')
     sent = False
@@ -70,7 +70,7 @@ def post_share(request, post_id):
 
         # When the view is loaded initially with a GET request, you create a new form
         # instance that will be used to display the empty form in the template
-        else:
-            form = EmailPostForm()
-        
-        return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent':sent})
+    else:
+        form = EmailPostForm()
+    
+    return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent':sent})
