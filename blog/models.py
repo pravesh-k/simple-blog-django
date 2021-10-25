@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.expressions import OrderBy
 from django.db.models.manager import Manager
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -53,3 +54,24 @@ class Post(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(       # to which post the comment object is associated with
+        Post,
+        on_delete=models.CASCADE,
+        related_name='comments'     # this attribute is used to backtrack to the this object from post object
+        )
+    
+    name = models.CharField(max_length=80)      # name of user who commented
+    email = models.EmailField()                 # name of email who commented
+    body = models.TextField()                   # body of the comment
+    created = models.DateTimeField(auto_now_add=True)       # timestamp of comment creation
+    updated = models.DateTimeField(auto_now=True)           # timestamp of comment updation
+    active = models.BooleanField(default=True)              # flag for inappropriate comment
+
+    class Meta:
+        ordering = ('created',)                 # sort comments by creation timestamp
+    
+    def __str__(self) -> str:
+        return f'Comment by {self.name} on {self.post}'
