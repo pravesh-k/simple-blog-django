@@ -4,6 +4,7 @@ from django.db.models.manager import Manager
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 class PublishedManager(models.Manager):
@@ -18,17 +19,17 @@ class Post(models.Model):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
-    )
+        )
     title = models.CharField(max_length=250)
     slug = models.SlugField(
         max_length=250,
         unique_for_date='publish'
-    )
+        )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='blog_posts'
-    )
+        )
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
@@ -37,8 +38,9 @@ class Post(models.Model):
         max_length=10,
         choices=STATUS_CHOICES,
         default='draft'
-    )
-    
+        )
+    tags = TaggableManager()      #The tags manager allows to add, retrieve, and remove tags from Post
+
     def get_absolute_url(self):
         # print("\n\n\n"+str(self.slug)+"\n\n\n")
         return reverse(
