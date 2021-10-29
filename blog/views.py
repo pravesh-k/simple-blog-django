@@ -11,7 +11,7 @@ def post_list(request, tag_slug=None):
     object_list = Post.published.all()
     tag = None
 
-    if tag:
+    if tag_slug:
         tag = get_object_or_404(Tag, slug = tag_slug)
         object_list = object_list.filter(tags__in=[tag])
 
