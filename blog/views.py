@@ -3,11 +3,17 @@ from .models import Post, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
+from taggit.models import Tag
 # Create your views here.
 
 # view for post list
-def post_list(request):
+def post_list(request, tag_slug=None):
     object_list = Post.published.all()
+    tag = None
+
+    if tag:
+        tag = get_object_or_404(Tag, slug = tag_slug)
+        object_list = object_list.filter(tags__in=[tag])
 
     #pagination
     paginator = Paginator(object_list, per_page=3)      #3 posts in each page
@@ -21,12 +27,17 @@ def post_list(request):
         #If page number is out of range, deliver the last page of the results
         posts = paginator.page(paginator.num_pages)
     #/pagination
+
+    args = {
+            'page': page,
+            'posts': posts,
+            'tag': tag
+            }
     return render(
         request,
         'blog/post/list.html',
-        {'page': page,
-         'posts': posts}
-    )
+        args
+        )
 
 # view for post details
 def post_detail(request, year, month, day, post):
@@ -69,7 +80,7 @@ def post_detail(request, year, month, day, post):
         request,
         'blog/post/detail.html',
         args
-    )
+        )
 
 # view for the form which handles sending post in mails
 def post_share(request, post_id):
