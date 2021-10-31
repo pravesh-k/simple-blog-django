@@ -117,7 +117,12 @@ def post_share(request, post_id):
     else:
         form = EmailPostForm()
     
-    return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent':sent})
+    args = {
+        'post': post, 
+        'form': form, 
+        'sent':sent
+        }
+    return render(request, 'blog/post/share.html', args)
 
 
 # view for Comment model/handling modelForm in views
