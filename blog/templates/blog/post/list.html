@@ -1,5 +1,7 @@
 {% extends "blog/base.html" %}
 
+{% load blog_tags %}
+
 {% block title %}Blog Page{% endblock %}
 
 {% block content %}
@@ -25,7 +27,9 @@
         <p class="date">
             Published {{ post.publish }} by {{ post.author }}
         </p>
-        {{ post.body|truncatewords:30|linebreaks }}
+        <!-- The truncatewords_html filter truncates a string after a certain 
+        number of words, avoiding unclosed HTML tags -->
+        {{ post.body|markdown|truncatewords_html:30 }}
     {% endfor %}
     {% include "pagination.html" with page=posts %}
 {% endblock %}
