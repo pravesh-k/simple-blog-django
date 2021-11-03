@@ -13,6 +13,7 @@
         <h2>
             <a href="{{ post.get_absolute_url }}">
                 {{ post.title }}</a>
+        </h2>
             <p class="tags">
                 Tags:
                 {% for tag in post.tags.all %}
@@ -23,7 +24,6 @@
                 {% endfor %}
             </p>
             
-        </h2>
         <p class="date">
             Published {{ post.publish }} by {{ post.author }}
         </p>
