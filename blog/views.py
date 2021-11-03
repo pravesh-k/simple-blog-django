@@ -129,15 +129,15 @@ def post_share(request, post_id):
 
 # view for full-text search 
 def post_search(request):
-    form = SearchForm()
+    form = SearchForm()     #instantiate a SearchForm object
     query = None
     results = []
-    
-    if 'query' in request.GET:
-        form = SearchForm(request.GET)
+
+    if 'query' in request.GET:              #initialize the form oject with dict data of 
+        form = SearchForm(request.GET)      #request.GET if query is present in request.GET object
         if form.is_valid():
-            query = form.cleaned_data['query']
-            results = Post.published.annotate(
+            query = form.cleaned_data['query']      #fetch the value of query of form object is valid
+            results = Post.published.annotate(      #fetching posts matching the search query
                 search=SearchVector('title', 'body'),
             ).filter(search=query)
     
@@ -147,6 +147,7 @@ def post_search(request):
         'results': results
         }
 
+    #returning an httpResponse object to the search.html template with the context data/args
     return render(
         request,
         'blog/post/search.html',
