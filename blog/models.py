@@ -41,7 +41,7 @@ class Post(models.Model):
         )
     tags = TaggableManager()      #The tags manager allows to add, retrieve, and remove tags from Post
 
-    def get_absolute_url(self):
+    def get_absolute_url(self):     #returns the absolute url of the post object
         # print("\n\n\n"+str(self.slug)+"\n\n\n")
         return reverse(
             'blog:post_detail',
