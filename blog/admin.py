@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Post, Comment
 
-
+# register the Post model to be managed by django admin portal
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'author', 'publish', 'status')
@@ -12,6 +12,7 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish'
     ordering = ('status', 'publish')
 
+# register the Comment model to be managed by django admin portal
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'post', 'created', 'active')
